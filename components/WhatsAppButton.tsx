@@ -2,9 +2,25 @@
 
 export default function WhatsAppButton() {
   const href =
-    'https://wa.me/584248190169?text=Hola%20Dra.%20Haymar%2C%20me%20gustar%C3%ADa%20agendar%20una%20consulta.';
+    'https://wa.me/584248190169?text=Hola%20Dra.%20Haymar%2C%20quisiera%20agendar%20una%20consulta.';
+
   return (
-    <a className="whatsapp-fab" href={href} target="_blank" rel="noreferrer">
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-white font-bold shadow-lg hover:shadow-xl transition"
+    >
+      {/* Ícono de WhatsApp (SVG inline para no depender de librerías) */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+        className="h-5 w-5"
+      >
+        <path d="M12 .019C5.39.019 0 5.409 0 12c0 2.117.557 4.178 1.616 6.004L.019 24l6.149-1.58A11.9 11.9 0 0 0 12 23.981c6.61 0 12-5.39 12-11.981C24 5.409 18.61.019 12 .019Zm0 21.938c-1.962 0-3.875-.525-5.547-1.519l-.396-.234-3.65.94.975-3.561-.258-.367A9.9 9.9 0 0 1 2.1 12C2.1 6.521 6.522 2.1 12 2.1c5.478 0 9.9 4.421 9.9 9.9 0 5.478-4.422 9.957-9.9 9.957Zm5.435-7.451c-.297-.149-1.762-.867-2.036-.967-.274-.099-.474-.149-.673.15-.198.297-.772.966-.946 1.165-.174.198-.347.223-.644.074-.297-.149-1.256-.463-2.39-1.475-.883-.789-1.48-1.762-1.654-2.06-.173-.298-.018-.458.13-.606.134-.134.297-.347.446-.521.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.074-.149-.673-1.615-.922-2.214-.242-.58-.487-.5-.673-.51-.173-.009-.372-.009-.571-.009s-.521.074-.796.372c-.274.298-1.048 1.025-1.048 2.5 0 1.475 1.074 2.9 1.223 3.099.149.198 2.108 3.222 5.11 4.514.714.308 1.27.492 1.705.631.715.228 1.365.196 1.881.119.574-.085 1.762-.719 2.01-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347Z" />
+      </svg>
+
       WhatsApp
     </a>
   );
