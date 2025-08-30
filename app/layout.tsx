@@ -1,47 +1,49 @@
 // app/layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
-// Si ya creaste el componente, descomenta estas dos líneas:
-// import WhatsAppButton from "@/components/WhatsAppButton";
+import { Poppins } from "next/font/google";
+import Link from "next/link";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: "Dra. Haymar Marcano Millán | Pediatría",
   description:
-    "Consulta pediátrica, control del niño sano y orientación educativa para familias. Atención cálida, cercana y basada en evidencia.",
-  metadataBase: new URL("https://haymar-site.vercel.app"),
-  openGraph: {
-    title: "Dra. Haymar Marcano Millán | Pediatría",
-    description:
-      "Consulta pediátrica, control del niño sano y orientación educativa para familias.",
-    url: "https://haymar-site.vercel.app",
-    siteName: "Dra. Haymar",
-    type: "website",
-  },
-  alternates: {
-    canonical: "https://haymar-site.vercel.app",
-  },
-  icons: {
-    icon: "/favicon.ico",
-  },
+    "Cuidado pediátrico con calidez y evidencia. Consultas, control del niño sano y educación para familias.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      <body>
-        {children}
+      <body className={`${poppins.className} text-neutral-800 antialiased`}>
+        {/* NAV */}
+        <header className="border-b bg-white/70 backdrop-blur">
+          <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+            <Link href="/" className="flex items-center gap-3">
+              {/* Si subes un logo a /public/logo.svg, se mostrará */}
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 text-white font-bold">H</span>
+              <span className="font-semibold">Dra. Haymar</span>
+            </Link>
 
-        {/* Botón flotante de WhatsApp en todo el sitio.
-            Para activarlo, asegúrate de tener:
-            /components/WhatsAppButton.tsx
-            Luego descomenta la importación y esta línea. */}
-        {/* <WhatsAppButton /> */}
+            <div className="hidden gap-6 md:flex">
+              <Link href="/" className="hover:text-emerald-700">Inicio</Link>
+              <Link href="/consulta" className="hover:text-emerald-700">Consulta</Link>
+              <Link href="/contacto" className="hover:text-emerald-700">Contacto</Link>
+            </div>
+          </nav>
+        </header>
+
+        <main>{children}</main>
+
+        <footer className="mt-20 border-t bg-white">
+          <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-neutral-500">
+            © {new Date().getFullYear()} Dra. Haymar Marcano Millán — Pediatría.
+          </div>
+        </footer>
       </body>
     </html>
   );
 }
-
