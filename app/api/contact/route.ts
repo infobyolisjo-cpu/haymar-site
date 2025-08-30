@@ -34,6 +34,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: "No se pudo enviar el correo" }, { status: 500 });
     }
 
+    // Redirección 303 para que la página muestre el aviso ✅
     return NextResponse.redirect(new URL("/contacto?ok=1", req.url), 303);
   } catch (e) {
     console.error(e);
