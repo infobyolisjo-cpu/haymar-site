@@ -1,16 +1,43 @@
-﻿export default function ContactoPage() {
+﻿"use client";
+
+import { useState } from "react";
+
+export default function ContactoPage() {
+  const [ok, setOk] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setOk(true);
+  };
+
   return (
-    <>
+    <main style={{ padding: "2rem" }}>
       <h1>Contacto</h1>
-      <form action="/api/contact" method="post" style={{display:'grid', gap:12, maxWidth:480}}>
-        <input name="nombre" placeholder="Nombre y Apellido" required />
-        <input name="email" type="email" placeholder="Correo" required />
-        <input name="telefono" placeholder="Teléfono / WhatsApp" />
-        <textarea name="mensaje" placeholder="Cuéntanos tu caso" rows={5} required />
-        <button type="submit" style={{padding:'10px 14px', fontWeight:700, borderRadius:8, border:'1px solid #ddd'}}>
-          Enviar
-        </button>
-      </form>
-    </>
+      <p>Escríbenos para más información.</p>
+
+      {ok ? (
+        <p style={{ color: "green" }}>✅ Mensaje enviado correctamente.</p>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <input type="text" placeholder="Tu nombre" required />
+          <br />
+          <input type="email" placeholder="Tu correo" required />
+          <br />
+          <textarea placeholder="Tu mensaje" required />
+          <br />
+          <button
+            type="submit"
+            style={{
+              background: "green",
+              color: "white",
+              padding: "0.5rem 1rem",
+              borderRadius: "8px",
+            }}
+          >
+            Enviar
+          </button>
+        </form>
+      )}
+    </main>
   );
 }

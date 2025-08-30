@@ -1,18 +1,20 @@
-﻿import { NextResponse } from 'next/server';
+﻿import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const form = await req.formData();
-  const payload = {
-    nombre: String(form.get('nombre') || ''),
-    email: String(form.get('email') || ''),
-    telefono: String(form.get('telefono') || ''),
-    mensaje: String(form.get('mensaje') || ''),
-    receivedAt: new Date().toISOString(),
-  };
+  try {
+    const { name, email, message } = await req.json();
 
-  // Aquí más adelante: enviar a tu correo, Google Sheet o WhatsApp API.
-  console.log('Nuevo contacto:', payload);
+    // Aquí integramos con Formspree o servicio similar
+    await fetch("https://formspree.io/f/tu_endpoint", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ name, email, message }),
+    });
 
-  // Redirigimos a una página simple de gracias:
-  return NextResponse.redirect(new URL('/contacto?ok=1', req.url), 303);
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    return NextResponse.json({ ok: false, error: "Error enviando formulario" }, { status: 500 });
+  }
 }
