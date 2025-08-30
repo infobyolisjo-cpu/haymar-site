@@ -1,18 +1,18 @@
 /* app/globals.css */
 
-/* 1) Tailwind: obligatorio al inicio */
+/* === Tailwind === */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 2) Fuente del sistema (rápida y legible) */
+/* === Variables base === */
 :root {
   --bg: #ffffff;
   --fg: #0e1012;
-  --muted: #6b7280;     /* neutral-500 */
-  --line: #e5e7eb;      /* neutral-200 */
-  --brand: #0b5fff;     /* azul acciones */
-  --success: #16a34a;   /* verde ok */
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --brand: #0b5fff;
+  --success: #25D366;
 }
 
 html, body {
@@ -21,7 +21,7 @@ html, body {
   color: var(--fg);
 }
 
-/* 3) Reset suave para tipografía */
+/* === Tipografía base === */
 @layer base {
   * {
     @apply antialiased;
@@ -36,16 +36,11 @@ html, body {
   h2 { @apply text-2xl md:text-3xl; }
   h3 { @apply text-xl; }
   p  { @apply text-gray-700; }
-  a  { @apply text-[var(--brand)]; }
+  a  { @apply text-[var(--brand)] hover:underline; }
 }
 
-/* 4) Contenedor principal reutilizable */
+/* === Componentes reutilizables === */
 @layer components {
-  .container-soft {
-    @apply mx-auto max-w-6xl px-4;
-  }
-
-  /* Botones base */
   .btn {
     @apply inline-flex items-center justify-center rounded-xl px-5 py-3 font-semibold transition;
   }
@@ -56,48 +51,22 @@ html, body {
     @apply border border-neutral-300 hover:bg-neutral-50;
   }
   .btn-success {
-    @apply bg-[#25D366] text-white hover:brightness-110 shadow-sm; /* WhatsApp */
+    @apply bg-[var(--success)] text-white hover:brightness-110 shadow-sm;
   }
 
-  /* Tarjeta básica */
   .card {
-    @apply rounded-2xl border border-neutral-200 bg-white p-5 shadow-[0_0_0_0_rgba(0,0,0,0)];
+    @apply rounded-2xl border border-neutral-200 bg-white p-5;
   }
-  .card-hover {
-    @apply hover:shadow-sm transition;
-  }
-
-  /* Secciones */
   .section {
-    @apply container-soft py-14;
-  }
-  .section-muted {
-    @apply bg-[#fafbfc];
+    @apply mx-auto max-w-6xl px-4 py-14;
   }
 
-  /* Listas */
-  .list-soft {
-    @apply list-disc pl-5 text-gray-700;
-  }
-
-  /* Footer */
   .site-footer {
     @apply border-t border-neutral-200 py-8 text-sm text-neutral-600;
   }
 }
 
-/* 5) Utilidades pequeñas */
-.hr-line {
-  border: none;
-  border-top: 1px solid var(--line);
-  margin: 1.25rem 0;
-}
-
-.badge {
-  @apply inline-block rounded-md bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700;
-}
-
-/* 6) Accesibilidad en focus */
+/* === Utilidades === */
 :focus-visible {
   outline: 2px solid var(--brand);
   outline-offset: 2px;
