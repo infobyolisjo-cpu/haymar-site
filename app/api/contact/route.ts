@@ -2,19 +2,41 @@
 
 export async function POST(req: Request) {
   try {
-    const { name, email, message } = await req.json();
+    const form = await req.formData();
+    const nombre = String(form.get("nombre") || "");
+    const email = String(form.get("email") || "");
+    const telefono = String(form.get("telefono") || "");
+    const mensaje = String(form.get("mensaje") || "");
 
-    // Aquí integramos con Formspree o servicio similar
-    await fetch("https://formspree.io/f/tu_endpoint", {
+    const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
       },
-      body: JSON.stringify({ name, email, message }),
+      body: JSON.stringify({
+        from: "Web Dra Haymar <onboarding@resend.dev>",
+        to: ["drahaymarmarcano@gmail.com"],
+        subject: "Nuevo contacto desde la web",
+        html: `
+          <h2>Nuevo contacto</h2>
+          <p><strong>Nombre:</strong> ${nombre}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Teléfono:</strong> ${telefono}</p>
+          <p><strong>Mensaje:</strong><br/>${mensaje}</p>
+        `,
+      }),
     });
 
-    return NextResponse.json({ ok: true });
+    if (!res.ok) {
+      const txt = await res.text();
+      console.error("Resend error:", txt);
+      return NextResponse.json({ ok: false, error: "No se pudo enviar el correo" }, { status: 500 });
+    }
+
+    return NextResponse.redirect(new URL("/contacto?ok=1", req.url), 303);
   } catch (e) {
-    return NextResponse.json({ ok: false, error: "Error enviando formulario" }, { status: 500 });
+    console.error(e);
+    return NextResponse.json({ ok: false, error: "Error en el servidor" }, { status: 500 });
   }
 }
