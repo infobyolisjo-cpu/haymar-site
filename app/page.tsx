@@ -2,114 +2,141 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export default function HomePage() {
+export default function Page() {
   return (
-    <main className="min-h-screen">
+    <>
       {/* HERO */}
-      <section className="bg-gradient-to-r from-emerald-50 to-sky-50">
-        <div className="mx-auto max-w-6xl px-4 py-14 grid md:grid-cols-2 gap-10 items-center">
-          {/* Columna texto */}
+      <section className="bg-gradient-to-r from-emerald-50 via-sky-50 to-white">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 py-12 md:grid-cols-2 md:py-16">
+          {/* Texto */}
           <div>
-            <p className="text-sm font-semibold text-emerald-700">Dra. Haymar</p>
-            <h1 className="mt-2 text-4xl/tight md:text-5xl/tight font-bold text-slate-900">
-              Cuidado pediátrico con calidez y evidencia.
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
+              Cuidado integral para tu <span className="text-emerald-700">pequeño</span>
             </h1>
-            <p className="mt-4 text-slate-700">
-              Consultas pediátricas, control del niño sano, nutrición y guía a
-              familias. Atención cercana, respetuosa y basada en buenas prácticas.
+            <p className="mt-3 text-slate-700">
+              Consultas pediátricas, control del niño sano, nutrición y guía a familias. Atención cercana, respetuosa y
+              basada en evidencia.
             </p>
 
-            {/* Botones */}
             <div className="mt-6 flex flex-wrap gap-3">
               <a
-                href="https://wa.me/584248190169"
-                className="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 py-2.5 text-white font-semibold shadow-sm hover:bg-emerald-700"
+                className="rounded-lg bg-emerald-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-emerald-700"
+                href="https://wa.me/584248190169?text=Hola%20Dra.%20Haymar%2C%20quisiera%20agendar%20consulta"
+                target="_blank"
               >
                 Agendar por WhatsApp
               </a>
               <Link
+                className="rounded-lg border border-slate-300 px-4 py-2 font-medium text-slate-800 hover:border-slate-400"
                 href="/consulta"
-                className="inline-flex items-center justify-center rounded-xl border border-slate-300 px-4 py-2.5 font-semibold text-slate-800 hover:bg-white/60"
               >
                 Probar chat educativo
               </Link>
               <Link
+                className="rounded-lg border border-slate-300 px-4 py-2 font-medium text-slate-800 hover:border-slate-400"
                 href="/contacto"
-                className="inline-flex items-center justify-center rounded-xl border border-slate-300 px-4 py-2.5 font-semibold text-slate-800 hover:bg-white/60"
               >
                 Escribir mensaje
               </Link>
             </div>
 
-            <p className="mt-4 text-sm text-slate-500">
+            <p className="mt-4 text-xs text-slate-500">
               Tel. +58 424-8190169 · Instagram: @dra.haymarmarcano / @somos_creciendojuntos
             </p>
           </div>
 
-          {/* Columna imagen */}
-          <div className="flex justify-center">
-            {/* usa la imagen que subiste a /public */}
-            <Image
-              src="/dra-haymar-hero.jpg"
-              alt="Dra. Haymar Marcano Millán — Pediatra"
-              width={640}
-              height={800}
-              priority
-              className="w-full h-auto max-w-md md:max-w-lg rounded-2xl object-cover shadow-sm"
-            />
+          {/* Foto */}
+          <div className="flex justify-center md:justify-end">
+            <div className="relative aspect-[3/4] w-full max-w-sm overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md">
+              <Image
+                src="/dra-haymar-hero.jpg"
+                alt="Dra. Haymar Marcano — Pediatra"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Sección Servicios */}
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <h2 className="text-3xl font-bold text-slate-900">Servicios</h2>
-        <p className="mt-2 text-slate-700">
-          Atención integral y acompañamiento a familias.
+      {/* “SERVICIOS” – Tarjetas */}
+      <section className="mx-auto max-w-6xl px-4 py-12">
+        <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">Servicios especializados</h2>
+        <p className="mt-2 text-slate-600">
+          Atención integral y acompañamiento a familias: prevención, orientación y tratamiento.
         </p>
 
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            "Consulta pediátrica",
-            "Control del niño sano",
-            "Nutrición y lactancia",
-            "Vacunación",
-            "Teleconsulta",
-            "Educación a padres",
-          ].map((item) => (
+            { t: "Consulta pediátrica", d: "Evaluación general y seguimiento." },
+            { t: "Control del niño sano", d: "Crecimiento, desarrollo y consejería." },
+            { t: "Nutrición y lactancia", d: "Apoyo práctico y respetuoso." },
+            { t: "Vacunación", d: "Calendario y orientación informada." },
+            { t: "Teleconsulta", d: "Orientación inicial y dudas comunes." },
+            { t: "Educación a padres", d: "Herramientas para el día a día." },
+          ].map((card) => (
             <div
-              key={item}
-              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm hover:shadow-md"
+              key={card.t}
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md"
             >
-              <h3 className="font-semibold text-slate-900">{item}</h3>
-              <p className="mt-1 text-sm text-slate-600">
-                Información y acompañamiento con enfoque humano.
-              </p>
+              <h3 className="font-semibold text-slate-900">{card.t}</h3>
+              <p className="mt-1 text-sm text-slate-600">{card.d}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200">
-        <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-500">
-          © 2025 Dra. Haymar Marcano Millán — Pediatría.
-          <div className="mt-2 flex gap-4">
-            <Link href="/consulta" className="hover:text-slate-700">
-              Consulta
-            </Link>
-            <Link href="/contacto" className="hover:text-slate-700">
-              Contacto
-            </Link>
-            <a
-              href="https://wa.me/584248190169"
-              className="hover:text-slate-700"
-            >
-              WhatsApp
-            </a>
+      {/* SOBRE MÍ */}
+      <section className="bg-white">
+        <div className="mx-auto max-w-6xl px-4 py-12">
+          <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6">
+            <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">Sobre la Dra. Haymar Marcano</h2>
+            <p className="mt-2 max-w-3xl text-slate-700">
+              Pediatra enfocada en el cuidado integral de la salud infantil. Comunicación clara y empática, respeto por
+              el ritmo de cada familia y prácticas basadas en evidencia.
+            </p>
+
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <li className="rounded-lg bg-emerald-50 px-4 py-3 text-emerald-800">
+                ✔ Atención personalizada con enfoque humano
+              </li>
+              <li className="rounded-lg bg-sky-50 px-4 py-3 text-sky-800">✔ Trabajo en equipo con las familias</li>
+              <li className="rounded-lg bg-violet-50 px-4 py-3 text-violet-800">✔ Prevención primero</li>
+            </ul>
           </div>
         </div>
-      </footer>
-    </main>
+      </section>
+
+      {/* CTA CONTACTO */}
+      <section className="bg-gradient-to-r from-sky-50 to-emerald-50">
+        <div className="mx-auto max-w-6xl px-4 py-12">
+          <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:flex-row md:items-center">
+            <div>
+              <h3 className="text-xl font-semibold text-slate-900">¿Agendamos tu consulta?</h3>
+              <p className="mt-1 text-slate-600">
+                Escríbeme por WhatsApp o envíame un mensaje desde la web. ¡Con gusto te ayudo!
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <a
+                className="rounded-lg bg-emerald-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-emerald-700"
+                href="https://wa.me/584248190169?text=Hola%20Dra.%20Haymar%2C%20quisiera%20agendar%20consulta"
+                target="_blank"
+              >
+                WhatsApp
+              </a>
+              <Link
+                className="rounded-lg border border-slate-300 px-4 py-2 font-medium text-slate-800 hover:border-slate-400"
+                href="/contacto"
+              >
+                Contacto
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
+

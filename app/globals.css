@@ -2,22 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* === Estilos base === */
-html, body {
-  height: 100%;
-  background: #ffffff;
-  color: #0f172a;
-  scroll-behavior: smooth;
+/* Ajustes globales simples */
+:root {
+  --radius: 14px;
 }
 
-h1,h2,h3,h4,h5,h6 {
-  @apply font-bold text-gray-900 tracking-tight;
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
-p {
-  @apply text-gray-700;
-}
-
-a {
-  @apply transition-colors;
+img {
+  image-rendering: -webkit-optimize-contrast;
 }
