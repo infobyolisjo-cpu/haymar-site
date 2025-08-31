@@ -6,34 +6,36 @@ export default function Page() {
   return (
     <>
       {/* HERO */}
-      <section className="bg-gradient-to-r from-emerald-50 via-sky-50 to-white">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 py-12 md:grid-cols-2 md:py-16">
+      <section className="bg-gradient-to-br from-brand-mint via-white to-brand-mint/40">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-4 py-12 md:grid-cols-2 md:py-16">
           {/* Texto */}
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
-              Cuidado integral para tu <span className="text-emerald-700">pequeño</span>
+              Cuidado pediátrico con{" "}
+              <span className="text-brand-teal">calidez y evidencia</span>.
             </h1>
             <p className="mt-3 text-slate-700">
-              Consultas pediátricas, control del niño sano, nutrición y guía a familias. Atención cercana, respetuosa y
-              basada en evidencia.
+              Consultas, control del niño sano, nutrición y guía a familias.
+              Atención cercana, respetuosa y basada en buenas prácticas.
             </p>
 
-            <div className="mt-6 flex flex-wrap gap-3">
+            {/* CTAs separados */}
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 md:flex md:flex-wrap">
               <a
-                className="rounded-lg bg-emerald-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-emerald-700"
+                className="rounded-xl bg-brand-teal px-5 py-3 text-center font-medium text-white shadow-soft hover:bg-brand-aqua"
                 href="https://wa.me/584248190169?text=Hola%20Dra.%20Haymar%2C%20quisiera%20agendar%20consulta"
                 target="_blank"
               >
                 Agendar por WhatsApp
               </a>
               <Link
-                className="rounded-lg border border-slate-300 px-4 py-2 font-medium text-slate-800 hover:border-slate-400"
+                className="rounded-xl border border-slate-300 px-5 py-3 text-center font-medium text-slate-800 hover:border-brand-aqua"
                 href="/consulta"
               >
                 Probar chat educativo
               </Link>
               <Link
-                className="rounded-lg border border-slate-300 px-4 py-2 font-medium text-slate-800 hover:border-slate-400"
+                className="rounded-xl border border-slate-300 px-5 py-3 text-center font-medium text-slate-800 hover:border-brand-aqua"
                 href="/contacto"
               >
                 Escribir mensaje
@@ -45,9 +47,11 @@ export default function Page() {
             </p>
           </div>
 
-          {/* Foto */}
-          <div className="flex justify-center md:justify-end">
-            <div className="relative aspect-[3/4] w-full max-w-sm overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md">
+          {/* Foto (más pequeña e integrada) */}
+          <div className="relative mx-auto w-full max-w-xs">
+            {/* halo de color detrás */}
+            <div className="absolute -inset-3 rounded-full bg-brand-aqua/20 blur-2xl" aria-hidden />
+            <div className="relative aspect-square overflow-hidden rounded-full border border-slate-200 bg-white shadow-soft">
               <Image
                 src="/dra-haymar-hero.jpg"
                 alt="Dra. Haymar Marcano — Pediatra"
@@ -56,78 +60,85 @@ export default function Page() {
                 priority
               />
             </div>
+            <p className="mt-3 text-center text-sm text-slate-500">Dra. Haymar Marcano Millán — Pediatra</p>
           </div>
         </div>
       </section>
 
-      {/* “SERVICIOS” – Tarjetas */}
-      <section className="mx-auto max-w-6xl px-4 py-12">
-        <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">Servicios especializados</h2>
-        <p className="mt-2 text-slate-600">
-          Atención integral y acompañamiento a familias: prevención, orientación y tratamiento.
-        </p>
-
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {/* MÉTRICAS / SELLOS */}
+      <section className="mx-auto max-w-6xl px-4 py-10">
+        <div className="grid gap-4 sm:grid-cols-3">
           {[
-            { t: "Consulta pediátrica", d: "Evaluación general y seguimiento." },
-            { t: "Control del niño sano", d: "Crecimiento, desarrollo y consejería." },
-            { t: "Nutrición y lactancia", d: "Apoyo práctico y respetuoso." },
-            { t: "Vacunación", d: "Calendario y orientación informada." },
-            { t: "Teleconsulta", d: "Orientación inicial y dudas comunes." },
-            { t: "Educación a padres", d: "Herramientas para el día a día." },
-          ].map((card) => (
-            <div
-              key={card.t}
-              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md"
-            >
-              <h3 className="font-semibold text-slate-900">{card.t}</h3>
-              <p className="mt-1 text-sm text-slate-600">{card.d}</p>
+            { n: "10+", t: "Años de experiencia", c: "bg-brand-mint text-brand-teal" },
+            { n: "1000+", t: "Niños atendidos", c: "bg-brand-aqua/10 text-brand-teal" },
+            { n: "24/7", t: "Disponibilidad", c: "bg-orange-50 text-amber-800" },
+          ].map((i) => (
+            <div key={i.t} className={`rounded-xl ${i.c} px-5 py-4 text-center`}>
+              <div className="text-2xl font-bold">{i.n}</div>
+              <div className="text-sm">{i.t}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* SOBRE MÍ */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-12">
-          <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6">
-            <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">Sobre la Dra. Haymar Marcano</h2>
-            <p className="mt-2 max-w-3xl text-slate-700">
-              Pediatra enfocada en el cuidado integral de la salud infantil. Comunicación clara y empática, respeto por
-              el ritmo de cada familia y prácticas basadas en evidencia.
-            </p>
+      {/* SERVICIOS */}
+      <section className="mx-auto max-w-6xl px-4 pb-4">
+        <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">Servicios especializados</h2>
+        <p className="mt-2 text-slate-600">
+          Atención integral y acompañamiento a familias: prevención, orientación y tratamiento.
+        </p>
 
-            <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <li className="rounded-lg bg-emerald-50 px-4 py-3 text-emerald-800">
-                ✔ Atención personalizada con enfoque humano
-              </li>
-              <li className="rounded-lg bg-sky-50 px-4 py-3 text-sky-800">✔ Trabajo en equipo con las familias</li>
-              <li className="rounded-lg bg-violet-50 px-4 py-3 text-violet-800">✔ Prevención primero</li>
+        <div className="mt-8 grid gap-6 lg:grid-cols-3">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md">
+            <div className="mb-3 inline-flex rounded-full bg-brand-aqua/10 px-3 py-1 text-sm text-brand-teal">Consulta</div>
+            <h3 className="font-semibold text-slate-900">Consultas pediátricas</h3>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
+              <li>Control del niño sano</li>
+              <li>Tratamiento de enfermedades</li>
+              <li>Seguimiento del crecimiento</li>
+            </ul>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md">
+            <div className="mb-3 inline-flex rounded-full bg-brand-mint px-3 py-1 text-sm text-brand-teal">Puericultura</div>
+            <h3 className="font-semibold text-slate-900">Orientación a padres</h3>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
+              <li>Alimentación y lactancia</li>
+              <li>Pautas de higiene</li>
+              <li>Prevención de enfermedades</li>
+            </ul>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md">
+            <div className="mb-3 inline-flex rounded-full bg-orange-50 px-3 py-1 text-sm text-amber-800">Vacunación</div>
+            <h3 className="font-semibold text-slate-900">Esquema y seguimiento</h3>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
+              <li>Calendario nacional</li>
+              <li>Vacunas adicionales</li>
+              <li>Consejería informada</li>
             </ul>
           </div>
         </div>
       </section>
 
-      {/* CTA CONTACTO */}
-      <section className="bg-gradient-to-r from-sky-50 to-emerald-50">
-        <div className="mx-auto max-w-6xl px-4 py-12">
+      {/* CTA FINAL */}
+      <section className="mt-12 bg-gradient-to-r from-brand-aqua/10 to-brand-mint">
+        <div className="mx-auto max-w-6xl px-4 py-10">
           <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:flex-row md:items-center">
             <div>
               <h3 className="text-xl font-semibold text-slate-900">¿Agendamos tu consulta?</h3>
-              <p className="mt-1 text-slate-600">
-                Escríbeme por WhatsApp o envíame un mensaje desde la web. ¡Con gusto te ayudo!
-              </p>
+              <p className="mt-1 text-slate-600">El canal más rápido es WhatsApp; también puedes escribir desde la web.</p>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="grid gap-3 sm:grid-cols-2">
               <a
-                className="rounded-lg bg-emerald-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-emerald-700"
+                className="rounded-xl bg-brand-teal px-5 py-3 text-center font-medium text-white shadow-soft hover:bg-brand-aqua"
                 href="https://wa.me/584248190169?text=Hola%20Dra.%20Haymar%2C%20quisiera%20agendar%20consulta"
                 target="_blank"
               >
                 WhatsApp
               </a>
               <Link
-                className="rounded-lg border border-slate-300 px-4 py-2 font-medium text-slate-800 hover:border-slate-400"
+                className="rounded-xl border border-slate-300 px-5 py-3 text-center font-medium text-slate-800 hover:border-brand-aqua"
                 href="/contacto"
               >
                 Contacto
