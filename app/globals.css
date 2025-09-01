@@ -2,15 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Ajustes globales simples */
-:root {
-  --radius: 14px;
-}
+/* Links del menú: separadores y claridad visual */
+.nav-link { @apply text-[#0f0f10] hover:underline; }
 
-* {
-  -webkit-tap-highlight-color: transparent;
+/* Botones y cards elegantes */
+.btn { @apply inline-flex items-center justify-center rounded-xl px-5 py-3 font-medium transition; }
+.btn-primary { @apply bg-[#0f0f10] text-white hover:opacity-90 active:scale-[.98]; }
+.btn-outline { @apply border border-neutral-300 text-[#0f0f10] hover:bg-neutral-50 active:scale-[.98]; }
+.btn-pulse { position: relative; overflow: hidden; }
+.btn-pulse::before {
+  content:""; position:absolute; inset:0;
+  background: radial-gradient(600px circle at var(--x) var(--y), rgba(255,255,255,.25), transparent 40%);
+  opacity:0; transition: opacity .2s ease;
 }
+.btn-pulse:hover::before { opacity:1; }
 
-img {
-  image-rendering: -webkit-optimize-contrast;
+.card-pro {
+  position: relative; border-radius: 1.5rem; background: #fff;
+  box-shadow: 0 6px 24px rgba(0,0,0,.06); border: 1px solid #e9e9ec;
 }
+.card-pro::after {
+  content:""; position:absolute; inset:-1px; border-radius:inherit;
+  background: linear-gradient(120deg, rgba(140,128,255,.25), rgba(255,142,166,.2));
+  filter: blur(12px); opacity:0; transition: opacity .25s ease; z-index:-1;
+}
+.card-pro:hover::after { opacity:1; }
+
