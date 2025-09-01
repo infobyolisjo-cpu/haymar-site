@@ -1,298 +1,169 @@
 ﻿"use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { Calendar, Phone, Mail, MapPin, Heart, Users, Shield, Clock } from "lucide-react";
+/** CONFIG */
+const WA_NUMBER = "###########"; // sólo dígitos
+const CONTACT_EMAIL = "drahaymarmarcano@gmail.com";
+const CHAT_URL = "https://tu-chat-url.ejemplo.com/";
+const FORM_ENDPOINT = `https://formsubmit.co/${CONTACT_EMAIL}`;
+const WA_LINK = `https://wa.me/${WA_NUMBER}?text=Hola%20Dra.%20Haymar,%20quisiera%20agendar%20una%20consulta`;
 
-export default function Landing() {
-  // enlaces útiles
-  const WAPP = "https://wa.me/584248190169?text=Hola%20Dra.%20quisiera%20agendar%20una%20consulta";
-  const MAIL = "mailto:haymarmarcano@gmail.com";
-  const IG   = "https://instagram.com/dra.haymarmarcano";
+export default function Home() {
+  const pulse = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+    const el = e.currentTarget as HTMLElement;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty("--x", `${e.clientX - r.left}px`);
+    el.style.setProperty("--y", `${e.clientY - r.top}px`);
+  };
+  const openChat = () => {
+    if (CHAT_URL && !CHAT_URL.includes("tu-chat-url")) window.open(CHAT_URL, "_blank", "noopener,noreferrer");
+    else alert("Configura CHAT_URL con el enlace de tu chat.");
+  };
 
   return (
-    <main className="bg-offwhite">
-      {/* HEADER fijo simple */}
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b">
-        <div className="container h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary to-teal text-white grid place-items-center shadow-soft">
-              <Heart size={18}/>
-            </div>
-            <div className="leading-tight">
-              <div className="font-semibold">Dra. Haymar Marcano</div>
-              <div className="text-xs text-slate-500">Pediatría · Puericultura</div>
-            </div>
+    <main className="bg-white text-[#0f0f10]">
+      {/* NAV */}
+      <nav className="sticky top-0 z-20 border-b border-neutral-200 bg-white/80 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+          <a href="#inicio" className="text-lg tracking-tight">Dra. Haymar</a>
+          <div className="hidden gap-2 sm:flex">
+            <a href="#inicio" className="btn btn-outline">Inicio</a>
+            <a href="#consulta" className="btn btn-outline">Consulta</a>
+            <a href="#contacto" className="btn btn-outline">Contacto</a>
+            <a href={WA_LINK} className="btn btn-primary btn-pulse" onMouseMove={pulse} target="_blank" rel="noopener noreferrer">WhatsApp</a>
           </div>
-
-          <nav className="hidden md:flex items-center gap-6 text-sm">
-            <a href="#inicio" className="hover:text-primary">Inicio</a>
-            <a href="#servicios" className="hover:text-primary">Servicios</a>
-            <a href="#sobre-mi" className="hover:text-primary">Sobre mí</a>
-            <a href="#contacto" className="hover:text-primary">Contacto</a>
-          </nav>
-
-          <Link href={WAPP} target="_blank" className="btn btn-teal">
-            <Calendar className="mr-2 h-4 w-4"/> Agendar Cita
-          </Link>
         </div>
-      </header>
+      </nav>
 
-      {/* HERO — claro, balanceado, con imagen sin fondo contenida */}
-      <section id="inicio" className="relative overflow-hidden">
-        {/* blobs suaves de fondo */}
-        <div className="pointer-events-none absolute -top-24 -left-24 h-80 w-80 rounded-full bg-mint blur-3xl opacity-60" />
-        <div className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-teal blur-3xl opacity-30" />
+      {/* INICIO */}
+      <section id="inicio" className="relative">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute -left-10 -top-10 h-48 w-48 rounded-full bg-[#edeaff] blur-3xl" />
+          <div className="absolute -right-8 top-24 h-40 w-40 rounded-full bg-[#ffeef2] blur-3xl" />
+        </div>
 
-        <div className="container grid lg:grid-cols-2 gap-10 py-12 md:py-16 items-center">
-          {/* copy */}
-          <div className="space-y-6">
-            <p className="text-sm font-medium text-primary/80">Pediatría • Puericultura</p>
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-              Cuidado Integral para <span className="grad-title">tu Pequeño</span>
-            </h1>
-            <p className="text-slate-600">
-              Atención pediátrica con calidez y evidencia: control del niño sano, nutrición y acompañamiento cercano a familias.
-            </p>
-
-            <div className="flex flex-wrap gap-3">
-              <Link href={WAPP} target="_blank" className="btn btn-primary">
-                Agendar Consulta
-              </Link>
-              <Link href="tel:+584248190169" className="btn btn-ghost">
-                <Phone className="h-4 w-4 mr-2"/> Llamar Ahora
-              </Link>
-              <Link href="/consulta" className="btn btn-teal">
-                Probar chat educativo
-              </Link>
-            </div>
-
-            {/* métricas */}
-            <div className="grid grid-cols-3 gap-3 pt-2 max-w-md">
-              <Stat number="10+" label="Años de Experiencia"/>
-              <Stat number="1000+" label="Niños Atendidos"/>
-              <Stat number="24/7" label="Disponibilidad"/>
-            </div>
+        <div className="mx-auto max-w-6xl px-6 pt-16 pb-12 lg:pt-24">
+          <span className="inline-block rounded-full border border-neutral-200 px-3 py-1 text-xs tracking-wide text-[#3a3a3c]">
+            Pediatría · Puericultura · Acompañamiento respetuoso
+          </span>
+          <h1 className="mt-5 text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+            Cuidado pediátrico con ciencia y calidez
+          </h1>
+          <p className="mt-4 max-w-2xl text-[#3a3a3c]">
+            Soy la <strong>Dra. Haymar Marcano Millán</strong>, pediatra puericultor.
+            Te acompaño con prevención, guías claras y respeto en cada etapa del desarrollo.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href="#consulta" className="btn btn-primary btn-pulse" onMouseMove={pulse}>Agendar consulta</a>
+            <a href="#contacto" className="btn btn-outline">Escríbeme</a>
+            <a href={WA_LINK} className="btn btn-outline" target="_blank" rel="noopener noreferrer">WhatsApp directo</a>
           </div>
-
-          {/* imagen sin fondo, contenida */}
-          <div className="relative mx-auto w-full max-w-md">
-            <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-gradient-to-br from-primary/10 to-teal/10 blur-2xl" />
-            <Image
-              src="/dra-haymar-hero.png"
-              alt="Dra. Haymar – Pediatra"
-              width={640}
-              height={800}
-              priority
-              className="w-full h-auto object-contain drop-shadow-xl"
-            />
+          <div className="mt-8 flex flex-wrap items-center gap-4 text-sm text-[#3a3a3c]">
+            <div className="card-pro px-4 py-2">+100 familias acompañadas</div>
+            <div className="card-pro px-4 py-2">Enfoque basado en evidencia</div>
+            <div className="card-pro px-4 py-2">Atención cercana y respetuosa</div>
           </div>
         </div>
       </section>
 
-      {/* SERVICIOS */}
-      <section id="servicios" className="container py-14 md:py-16">
-        <h2 className="text-3xl font-bold text-center">Servicios Especializados</h2>
-        <p className="text-center text-slate-600 mt-2 max-w-2xl mx-auto">
-          Ofrezco atención integral para el cuidado y desarrollo saludable de tu hijo.
-        </p>
+      {/* CONSULTA */}
+      <section id="consulta" className="bg-neutral-50">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <h2 className="text-3xl font-semibold">Consulta</h2>
+          <p className="mt-2 max-w-2xl text-[#3a3a3c]">
+            Agenda una consulta online o presencial (según disponibilidad). Recibirás indicaciones previas en tu correo.
+          </p>
 
-        <div className="mt-8 grid md:grid-cols-3 gap-6">
-          <ServiceCard
-            tone="from-mint to-white"
-            icon={<Heart className="h-5 w-5" />}
-            title="Consultas Pediátricas"
-            points={["Control del niño sano","Tratamiento de enfermedades","Seguimiento del crecimiento"]}
-          />
-          <ServiceCard
-            tone="from-teal/20 to-white"
-            icon={<Users className="h-5 w-5" />}
-            title="Puericultura"
-            points={["Alimentación y lactancia","Hábitos saludables","Prevención"]}
-          />
-          <ServiceCard
-            tone="from-orange/25 to-white"
-            icon={<Shield className="h-5 w-5" />}
-            title="Vacunación"
-            points={["Esquema oficial","Vacunas adicionales","Orientación informada"]}
-          />
-        </div>
-      </section>
-
-      {/* SOBRE MÍ */}
-      <section id="sobre-mi" className="bg-white">
-        <div className="container py-14 md:py-16 grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <h2 className="text-3xl font-bold mb-3">Sobre la Dra. Haymar Marcano</h2>
-            <p className="text-slate-600">
-              Pediatra y puericultor dedicada al cuidado integral de la salud infantil.
-              Acompaño a familias con una comunicación clara, respetuosa y basada en evidencia.
-            </p>
-
-            <ul className="mt-6 space-y-4">
-              <AboutItem icon={<Heart className="h-4 w-4 text-primary"/>} title="Atención Personalizada"
-                         desc="Cada niño es único; adapto el cuidado a sus necesidades." />
-              <AboutItem icon={<Users className="h-4 w-4 text-teal"/>} title="Trabajo con la Familia"
-                         desc="Colaboro con padres para crear planes de cuidado integrales." />
-              <AboutItem icon={<Shield className="h-4 w-4 text-orange"/>} title="Prevención Primero"
-                         desc="Me enfoco en crecimiento saludable y hábitos preventivos." />
-            </ul>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {[
+              { name: "Consulta pediátrica", price: "USD 45", desc: "Evaluación integral, orientación y plan claro. 35–45 min.", cta: "Agendar por WhatsApp" },
+              { name: "Acompañamiento 4 semanas", price: "USD 120", desc: "Seguimiento por WhatsApp + 2 controles. Lactancia, sueño o alimentación.", cta: "Solicitar" },
+              { name: "Asesoría BLW / papillas", price: "USD 60", desc: "Introducción de alimentos, menús y checklist de seguridad. Incluye guía PDF.", cta: "Quiero este" }
+            ].map((s) => (
+              <div key={s.name} className="card-pro p-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="text-xl font-semibold">{s.name}</h3>
+                    <p className="mt-2 text-[#3a3a3c]">{s.desc}</p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-xs text-[#6d6d70]">Desde</div>
+                    <div className="text-2xl font-semibold">{s.price}</div>
+                  </div>
+                </div>
+                <a href={WA_LINK} className="btn btn-primary btn-pulse mt-5 w-full" onMouseMove={pulse} target="_blank" rel="noopener noreferrer">{s.cta}</a>
+              </div>
+            ))}
           </div>
 
-          <div className="relative">
-            <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-gradient-to-br from-teal/15 to-primary/10 blur-2xl" />
-            <Image
-              src="/dra-haymar-hero.png"  // puedes poner otra si quieres
-              alt="Consulta pediátrica"
-              width={560}
-              height={700}
-              className="w-full h-auto rounded-2xl object-cover shadow-soft"
-            />
-            <div className="absolute bottom-3 right-3 bg-white/90 backdrop-blur rounded-xl px-4 py-2 shadow-soft text-sm flex items-center gap-2">
-              <Heart className="h-4 w-4 text-primary"/> 5.0 · Pacientes felices
-            </div>
+          <div className="mt-12 card-pro p-6">
+            <h3 className="text-xl font-semibold">Agenda por correo</h3>
+            <p className="mt-2 text-[#3a3a3c]">
+              Completa el formulario y recibirás confirmación en tu correo. También puedes escribir a {CONTACT_EMAIL}.
+            </p>
+            <form className="mt-6 grid gap-4 md:grid-cols-2" action={FORM_ENDPOINT} method="POST">
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_subject" value="Nueva solicitud de consulta (sitio web)" />
+              <input type="hidden" name="_template" value="table" />
+              <input className="w-full rounded-xl border border-neutral-300 px-4 py-3 outline-none focus:ring-2 focus:ring-[#0f0f10]" name="Nombre" placeholder="Nombre y apellido" required />
+              <input className="w-full rounded-xl border border-neutral-300 px-4 py-3 outline-none focus:ring-2 focus:ring-[#0f0f10]" type="email" name="Correo" placeholder="Correo electrónico" required />
+              <input className="w-full rounded-xl border border-neutral-300 px-4 py-3 outline-none focus:ring-2 focus:ring-[#0f0f10]" name="Teléfono" placeholder="Teléfono / WhatsApp" />
+              <input className="w-full rounded-xl border border-neutral-300 px-4 py-3 outline-none focus:ring-2 focus:ring-[#0f0f10]" name="Edad del bebé" placeholder="Edad del bebé" />
+              <textarea className="md:col-span-2 min-h-[120px] w-full rounded-xl border border-neutral-300 px-4 py-3 outline-none focus:ring-2 focus:ring-[#0f0f10]" name="Motivo" placeholder="Cuéntame brevemente tu necesidad" required />
+              <button type="submit" className="btn btn-primary btn-pulse md:col-span-2" onMouseMove={pulse}>Enviar solicitud</button>
+            </form>
           </div>
         </div>
       </section>
 
       {/* CONTACTO */}
-      <section id="contacto" className="bg-gradient-to-b from-offwhite to-mint/40">
-        <div className="container py-14 md:py-16">
-          <h2 className="text-3xl font-bold text-center">Agenda tu Consulta</h2>
-          <p className="text-center text-slate-600 mt-2 max-w-2xl mx-auto">
-            Estoy aquí para cuidar la salud de tu hijo. Escríbeme para coordinar tu cita.
-          </p>
+      <section id="contacto" className="mx-auto max-w-6xl px-6 py-16">
+        <h2 className="text-3xl font-semibold">Contacto</h2>
+        <p className="mt-2 max-w-2xl text-[#3a3a3c]">
+          Respondo más rápido por WhatsApp. También puedes usar el formulario o el chat.
+        </p>
 
-          <div className="mt-10 grid md:grid-cols-2 gap-6">
-            {/* tarjeta datos */}
-            <div className="card bg-gradient-to-br from-mint/60 to-white">
-              <h3 className="font-semibold mb-4">Información de Contacto</h3>
-              <ContactLine icon={<Phone className="h-4 w-4"/>}   label="Teléfono" value="+58 424-8190169" href="tel:+584248190169"/>
-              <ContactLine icon={<Mail className="h-4 w-4"/>}    label="Email"    value="haymarmarcano@gmail.com" href={MAIL}/>
-              <ContactLine icon={<MapPin className="h-4 w-4"/>}  label="Ubicación" value="Lechería, Edo. Anzoátegui" />
-              <ContactLine icon={<Clock className="h-4 w-4"/>}   label="Horarios" value="Lun–Vie · 9:00–17:00" />
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
+          <div className="card-pro p-6">
+            <h3 className="text-lg font-semibold">Escríbeme</h3>
+            <p className="mt-2 text-[#3a3a3c]"><a className="hover:underline" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <a href={WA_LINK} className="btn btn-primary btn-pulse" onMouseMove={pulse} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <button onClick={openChat} className="btn btn-outline">Abrir chat</button>
             </div>
+          </div>
 
-            {/* CTA rápida */}
-            <div className="card bg-gradient-to-tr from-primary/10 to-teal/20 flex flex-col justify-between">
-              <div>
-                <h3 className="font-semibold mb-2">Solicitud rápida</h3>
-                <p className="text-sm text-slate-600">
-                  Prefieres un mensaje directo: WhatsApp o correo.
-                </p>
-              </div>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link href={WAPP} target="_blank" className="btn btn-primary">WhatsApp</Link>
-                <Link href={MAIL}  className="btn btn-ghost">Escribir Email</Link>
-                <Link href={IG}    target="_blank" className="btn btn-teal">Instagram</Link>
-              </div>
-            </div>
+          <div className="card-pro p-6">
+            <h3 className="text-lg font-semibold">Formulario corto</h3>
+            <form className="mt-4 grid gap-3" action={FORM_ENDPOINT} method="POST">
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_subject" value="Nuevo mensaje (Contacto)" />
+              <input type="hidden" name="_template" value="table" />
+              <input className="w-full rounded-xl border border-neutral-300 px-4 py-3 outline-none focus:ring-2 focus:ring-[#0f0f10]" name="Nombre" placeholder="Nombre" required />
+              <input className="w-full rounded-xl border border-neutral-300 px-4 py-3 outline-none focus:ring-2 focus:ring-[#0f0f10]" type="email" name="Correo" placeholder="Correo" required />
+              <textarea className="min-h-[100px] w-full rounded-xl border border-neutral-300 px-4 py-3 outline-none focus:ring-2 focus:ring-[#0f0f10]" name="Mensaje" placeholder="Tu mensaje" required />
+              <button type="submit" className="btn btn-primary btn-pulse" onMouseMove={pulse}>Enviar</button>
+            </form>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-slate-900 text-slate-200">
-        <div className="container py-10 grid md:grid-cols-3 gap-8">
-          <div>
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-teal grid place-items-center">
-                <Heart size={16} className="text-white"/>
-              </div>
-              <span className="font-semibold">Dra. Haymar Marcano</span>
-            </div>
-            <p className="text-sm text-slate-400 mt-3">
-              Cuidado integral de la salud infantil con calidez, profesionalismo y evidencia.
-            </p>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-3">Servicios</h4>
-            <ul className="space-y-1 text-sm text-slate-300">
-              <li>Consultas Pediátricas</li>
-              <li>Puericultura</li>
-              <li>Vacunación</li>
-              <li>Control del Niño Sano</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-3">Contacto</h4>
-            <ul className="space-y-1 text-sm">
-              <li><Link href="tel:+584248190169" className="hover:text-white">+58 424-8190169</Link></li>
-              <li><Link href={MAIL} className="hover:text-white">haymarmarcano@gmail.com</Link></li>
-              <li><Link href={IG} target="_blank" className="hover:text-white">@dra.haymarmarcano</Link></li>
-            </ul>
-          </div>
-        </div>
-        <div className="border-t border-white/10">
-          <div className="container py-5 text-xs text-slate-400">
-            © 2025 Dra. Haymar Marcano Millán — Pediatría.
+      <footer className="border-t border-neutral-200">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-10 text-sm text-[#3a3a3c] md:flex-row">
+          <div>© {new Date().getFullYear()} Dra. Haymar Marcano Millán</div>
+          <div className="flex items-center gap-4">
+            <a href="#inicio" className="hover:underline">Inicio</a>
+            <a href="#consulta" className="hover:underline">Consulta</a>
+            <a href="#contacto" className="hover:underline">Contacto</a>
           </div>
         </div>
       </footer>
+
+      {/* FABs */}
+      <div className="fixed bottom-5 right-5 z-30 flex flex-col gap-2">
+        <a href={WA_LINK} className="rounded-full bg-[#0f0f10] px-4 py-3 text-white shadow-[0_10px_40px_rgba(0,0,0,0.15)] hover:opacity-90" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <button onClick={openChat} className="rounded-full border border-neutral-300 bg-white px-4 py-3 text-[#0f0f10] shadow-[0_10px_40px_rgba(0,0,0,0.08)] hover:bg-neutral-50">Chat</button>
+      </div>
     </main>
   );
-}
-
-/* ---------- subcomponentes ---------- */
-
-function Stat({ number, label }: { number: string; label: string }) {
-  return (
-    <div className="rounded-xl bg-white/80 backdrop-blur shadow-soft px-4 py-3 text-center">
-      <div className="text-xl font-bold text-primary">{number}</div>
-      <div className="text-xs text-slate-600">{label}</div>
-    </div>
-  );
-}
-
-function ServiceCard({
-  tone,
-  icon,
-  title,
-  points,
-}: {
-  tone: string;
-  icon: React.ReactNode;
-  title: string;
-  points: string[];
-}) {
-  return (
-    <div className={`card bg-gradient-to-br ${tone}`}>
-      <div className="flex items-center gap-3">
-        <div className="h-10 w-10 rounded-full bg-white/70 grid place-items-center text-primary">
-          {icon}
-        </div>
-        <h3 className="font-semibold text-slate-900">{title}</h3>
-      </div>
-      <ul className="mt-4 space-y-2 text-sm text-slate-700 list-disc pl-5">
-        {points.map((p, i) => <li key={i}>{p}</li>)}
-      </ul>
-    </div>
-  );
-}
-
-function AboutItem({ icon, title, desc }: { icon: React.ReactNode; title: string; desc: string }) {
-  return (
-    <li className="flex items-start gap-3">
-      <div className="h-7 w-7 rounded-full bg-white grid place-items-center shadow-soft">{icon}</div>
-      <div>
-        <div className="font-medium">{title}</div>
-        <div className="text-sm text-slate-600">{desc}</div>
-      </div>
-    </li>
-  );
-}
-
-function ContactLine({ icon, label, value, href }:{
-  icon: React.ReactNode; label:string; value:string; href?:string;
-}) {
-  const content = (
-    <div className="flex items-center gap-3">
-      <div className="h-9 w-9 rounded-full bg-white/70 grid place-items-center text-primary">{icon}</div>
-      <div>
-        <div className="text-xs text-slate-500">{label}</div>
-        <div className="font-medium">{value}</div>
-      </div>
-    </div>
-  );
-  return href ? <Link href={href} className="block py-2">{content}</Link> : <div className="py-2">{content}</div>;
 }
