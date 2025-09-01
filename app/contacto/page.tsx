@@ -1,170 +1,172 @@
-﻿// app/contacto/page.tsx
+﻿// app/page.tsx
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+/** CONFIG */
+const PHONE_E164 = "+584248190169";                 
+const WA_NUMBER = "584248190169";                   
+const CONTACT_EMAIL = "haymarmarcano@gmail.com";    
+const FORM_EMAIL = "drahaymarmarcano@gmail.com";    
+const MAPS_URL = "https://maps.google.com/?q=Consultorio%20Dra%20Haymar"; 
+const CHAT_URL = "";                                
 
-const WAPP =
-  "https://wa.me/584248190169?text=Hola%20Dra.%20Haymar,%20quisiera%20coordinar%20una%20cita";
+const WA_LINK = `https://wa.me/${WA_NUMBER}?text=Hola%20Dra.%20Haymar,%20quisiera%20agendar%20una%20consulta%20presencial`;
+const TEL_LINK = `tel:${PHONE_E164}`;
+const FORM_ENDPOINT = `https://formsubmit.co/${FORM_EMAIL}`;
 
-export default function ContactoPage() {
-  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
-  const [form, setForm] = useState({
-    parentName: "",
-    childName: "",
-    phone: "",
-    email: "",
-    message: "",
-  });
+export default function Home() {
+  const pulse = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+    const el = e.currentTarget as HTMLElement;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty("--x", `${e.clientX - r.left}px`);
+    el.style.setProperty("--y", `${e.clientY - r.top}px`);
+  };
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus("sending");
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (!res.ok) throw new Error("bad");
-      setStatus("ok");
-      setForm({ parentName: "", childName: "", phone: "", email: "", message: "" });
-    } catch {
-      setStatus("error");
-    }
-  }
+  const openChat = () => {
+    if (CHAT_URL) window.open(CHAT_URL, "_blank", "noopener,noreferrer");
+    else alert("El chat aún no está configurado (define CHAT_URL).");
+  };
 
   return (
-    <main className="min-h-[calc(100vh-56px)] bg-[#fffefe]">
-      <section className="bg-gradient-to-b from-[#d1eaeb]/60 to-[#fffefe] border-b border-slate-200/70">
-        <div className="mx-auto max-w-6xl px-4 py-8">
-          <h1 className="text-2xl md:text-3xl font-bold">Contacto</h1>
-          <p className="text-slate-700 mt-1">
-            Te responderé a la brevedad. También puedes escribir por WhatsApp.
-          </p>
-          <div className="mt-3">
-            <Link
-              href={WAPP}
-              target="_blank"
-              className="inline-flex items-center rounded-xl bg-[#1b748c] px-5 py-2.5 text-white font-semibold shadow hover:opacity-95"
-            >
-              WhatsApp directo
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-10 grid gap-6 md:grid-cols-2">
-        {/* Formulario */}
-        <div className="rounded-2xl bg-white shadow-[0_10px_24px_rgba(2,12,27,0.06)] ring-1 ring-[#60b0be]/15 p-6">
-          <h2 className="font-semibold">Escríbenos</h2>
-
-          {status === "ok" && (
-            <div className="mt-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 text-sm">
-              ¡Gracias! Tu mensaje fue enviado. Te contactaremos muy pronto.
-            </div>
-          )}
-          {status === "error" && (
-            <div className="mt-3 rounded-xl bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">
-              Ocurrió un error al enviar. Intenta de nuevo o usa WhatsApp.
-            </div>
-          )}
-
-          <form onSubmit={onSubmit} className="mt-4 grid gap-4">
-            <Field
-              label="Nombre del Padre/Madre"
-              name="parentName"
-              value={form.parentName}
-              onChange={(v) => setForm((f) => ({ ...f, parentName: v }))}
-              placeholder="Tu nombre"
-            />
-            <Field
-              label="Nombre del Niño/a"
-              name="childName"
-              value={form.childName}
-              onChange={(v) => setForm((f) => ({ ...f, childName: v }))}
-              placeholder="Nombre del niño/a"
-            />
-            <Field
-              label="Teléfono"
-              name="phone"
-              value={form.phone}
-              onChange={(v) => setForm((f) => ({ ...f, phone: v }))}
-              placeholder="+58 ..."
-            />
-            <Field
-              label="Email"
-              name="email"
-              value={form.email}
-              onChange={(v) => setForm((f) => ({ ...f, email: v }))}
-              placeholder="tucorreo@dominio.com"
-              type="email"
-            />
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Mensaje</label>
-              <textarea
-                value={form.message}
-                onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-                className="w-full rounded-xl border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-[#60b0be]"
-                rows={5}
-                placeholder="Cuéntanos brevemente el motivo…"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={status === "sending"}
-              className="inline-flex items-center justify-center rounded-xl bg-[#60b0be] px-5 py-3 text-white font-semibold shadow hover:opacity-95 disabled:opacity-50"
-            >
-              {status === "sending" ? "Enviando..." : "Enviar Mensaje"}
-            </button>
-          </form>
-
-          <p className="text-xs text-slate-500 mt-3">
-            * Este formulario envía a la Dra. Haymar por email. También puedes usar WhatsApp.
-          </p>
-        </div>
-
-        {/* Datos rápidos */}
-        <div className="rounded-2xl bg-gradient-to-br from-[#d1eaeb]/70 to-white p-6 shadow ring-1 ring-slate-200/70">
-          <h3 className="font-semibold">Contacto Rápido</h3>
-          <ul className="mt-4 space-y-2 text-sm">
-            <li><strong>Teléfono:</strong> <Link href="tel:+584248190169" className="hover:text-[#1b748c]">+58 424-8190169</Link></li>
-            <li><strong>Email:</strong> <Link href="mailto:haymarmarcano@gmail.com" className="hover:text-[#1b748c]">haymarmarcano@gmail.com</Link></li>
-            <li><strong>Instagram:</strong> <Link href="https://instagram.com/dra.haymarmarcano" target="_blank" className="hover:text-[#1b748c]">@dra.haymarmarcano</Link></li>
-            <li><strong>Ubicación:</strong> Lechería, Edo. Anzoátegui</li>
-            <li><strong>Horario:</strong> Lun–Vie · 9:00–17:00</li>
+    <main className="bg-white text-[#0f0f10]">
+      {/* NAV */}
+      <nav className="sticky top-0 z-20 border-b border-neutral-200 bg-white/80 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+          <a href="#inicio" className="text-lg font-medium tracking-tight">Dra. Haymar</a>
+          <ul className="hidden items-center gap-4 sm:flex">
+            <li><a href="#inicio" className="nav-link">Inicio</a></li>
+            <li><a href="#consulta" className="nav-link">Consulta</a></li>
+            <li><a href="#contacto" className="nav-link">Contacto</a></li>
+            <li>
+              <a href={WA_LINK} className="btn btn-primary btn-pulse" onMouseMove={pulse} target="_blank" rel="noopener noreferrer">
+                WhatsApp
+              </a>
+            </li>
           </ul>
-          <div className="mt-5">
-            <Link href={WAPP} target="_blank" className="inline-flex items-center rounded-xl bg-[#1b748c] px-5 py-3 text-white font-semibold shadow hover:opacity-95">
-              WhatsApp directo
-            </Link>
+        </div>
+      </nav>
+
+      {/* INICIO */}
+      <section id="inicio" className="relative">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute -left-10 -top-10 h-48 w-48 rounded-full bg-[#edeaff] blur-3xl" />
+          <div className="absolute -right-8 top-24 h-40 w-40 rounded-full bg-[#ffeef2] blur-3xl" />
+        </div>
+
+        <div className="mx-auto max-w-6xl px-6 pt-16 pb-12 lg:pt-20">
+          <span className="inline-block rounded-full border border-neutral-200 px-3 py-1 text-xs tracking-wide text-[#3a3a3c]">
+            Pediatría · Puericultura · Acompañamiento respetuoso
+          </span>
+
+          {/* 👇 Aquí está la marca CANARIO */}
+          <h1 className="mt-5 text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
+            Cuidado pediátrico — vCANARIO
+          </h1>
+
+          <p className="mt-4 max-w-2xl text-[#3a3a3c]">
+            Soy la <strong>Dra. Haymar Marcano Millán</strong>, pediatra puericultor en Venezuela.
+            Ofrezco <strong>consulta presencial</strong> con orientación clara y respetuosa.
+          </p>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href="#consulta" className="btn btn-primary btn-pulse" onMouseMove={pulse}>Agendar consulta presencial</a>
+            <a href={TEL_LINK} className="btn btn-outline">Llamar</a>
+            <a href={MAPS_URL} className="btn btn-outline" target="_blank" rel="noopener noreferrer">Ubicación</a>
           </div>
         </div>
       </section>
-    </main>
-  );
-}
 
-/* Campo controlado */
-function Field({
-  label, name, value, onChange, placeholder, type = "text",
-}:{
-  label:string; name:string; value:string; onChange:(v:string)=>void; placeholder?:string; type?:string;
-}) {
-  return (
-    <div>
-      <label htmlFor={name} className="block text-sm font-medium text-slate-700 mb-1">{label}</label>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        value={value}
-        onChange={(e)=>onChange(e.target.value)}
-        placeholder={placeholder}
-        className="w-full rounded-xl border border-slate-300 px-3 py-2 outline-none focus:ring-2 focus:ring-[#60b0be]"
-      />
-    </div>
+      {/* CONSULTA */}
+      <section id="consulta" className="bg-neutral-50">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <h2 className="text-3xl font-semibold">Consulta presencial</h2>
+          <p className="mt-2 max-w-2xl text-[#3a3a3c]">
+            Atención pediátrica presencial. Te indicamos preparación previa por WhatsApp o llamada.
+          </p>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <div className="card-pro p-6">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="text-xl font-semibold">Consulta Pediátrica</h3>
+                  <p className="mt-2 text-[#3a3a3c]">Evaluación clínica, orientación y plan claro. 35–45 min.</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-xs text-[#6d6d70]">Desde</div>
+                  <div className="text-2xl font-semibold">USD 45</div>
+                </div>
+              </div>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <a href={WA_LINK} className="btn btn-primary btn-pulse" onMouseMove={pulse} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                <a href={TEL_LINK} className="btn btn-outline">Llamar</a>
+              </div>
+            </div>
+
+            <div className="card-pro p-6">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="text-xl font-semibold">Control de Niño Sano</h3>
+                  <p className="mt-2 text-[#3a3a3c]">Seguimiento de crecimiento, desarrollo, vacunas e hitos.</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-xs text-[#6d6d70]">Desde</div>
+                  <div className="text-2xl font-semibold">USD 45</div>
+                </div>
+              </div>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <a href={WA_LINK} className="btn btn-primary btn-pulse" onMouseMove={pulse} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                <a href={TEL_LINK} className="btn btn-outline">Llamar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACTO */}
+      <section id="contacto" className="mx-auto max-w-6xl px-6 py-16">
+        <h2 className="text-3xl font-semibold">Contacto</h2>
+        <p className="mt-2 max-w-2xl text-[#3a3a3c]">
+          Respondo más rápido por WhatsApp. También puedes llamar o enviarme un mensaje por el formulario.
+        </p>
+
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
+          <div className="card-pro p-6">
+            <h3 className="text-lg font-semibold">Preferencias de contacto</h3>
+            <ul className="mt-3 space-y-2 text-[#3a3a3c]">
+              <li>WhatsApp: <a className="hover:underline" href={WA_LINK} target="_blank" rel="noopener noreferrer">{WA_NUMBER}</a></li>
+              <li>Teléfono: <a className="hover:underline" href={TEL_LINK}>{PHONE_E164}</a></li>
+              <li>Correo: <a className="hover:underline" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
+              <li>Ubicación: <a className="hover:underline" href={MAPS_URL} target="_blank" rel="noopener noreferrer">Ver en Google Maps</a></li>
+            </ul>
+          </div>
+
+          <div className="card-pro p-6">
+            <h3 className="text-lg font-semibold">Formulario</h3>
+            <form className="mt-4 grid gap-3" action={FORM_ENDPOINT} method="POST">
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_subject" value="Nuevo mensaje (Sitio web)" />
+              <input type="hidden" name="_template" value="table" />
+              <input className="w-full rounded-xl border border-neutral-300 px-4 py-3" name="Nombre" placeholder="Nombre y apellido" required />
+              <input className="w-full rounded-xl border border-neutral-300 px-4 py-3" type="email" name="Correo" placeholder="Correo" required />
+              <input className="w-full rounded-xl border border-neutral-300 px-4 py-3" name="Teléfono" placeholder="Teléfono / WhatsApp" />
+              <textarea className="min-h-[110px] w-full rounded-xl border border-neutral-300 px-4 py-3" name="Mensaje" placeholder="Tu mensaje" required />
+              <button type="submit" className="btn btn-primary btn-pulse" onMouseMove={pulse}>Enviar</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="border-t border-neutral-200">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-10 text-sm text-[#3a3a3c] md:flex-row">
+          <div>© {new Date().getFullYear()} Dra. Haymar Marcano Millán — Pediatría</div>
+          <div className="flex items-center gap-4">
+            <a href="#inicio" className="hover:underline">Inicio</a>
+            <a href="#consulta" className="hover:underline">Consulta</a>
+            <a href="#contacto" className="hover:underline">Contacto</a>
+          </div>
+        </div>
+      </footer>
+    </main>
   );
 }
 

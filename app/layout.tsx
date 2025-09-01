@@ -1,9 +1,9 @@
-// app/layout.tsx
+Ôªø// app/layout.tsx
 import "./globals.css";
 
 export const metadata = {
-  title: "Dra. Haymar | PediatrÌa y Puericultura",
-  description: "AcompaÒamiento pedi·trico respetuoso para familias.",
+  title: "Dra. Haymar | Pediatr√≠a y Puericultura",
+  description: "Acompa√±amiento pedi√°trico respetuoso para familias.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
